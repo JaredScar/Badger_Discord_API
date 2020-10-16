@@ -7,11 +7,9 @@
 
 RegisterCommand('testResource', function(source, args, rawCommand)
 	local user = source; -- The user 
-	print("Command starts"); -- DEBUG // Get rid of
-	local roles = GetGuildRoleList();
-	for roleName, roleID in pairs(roles) do 
-		print(roleName .. " === " .. roleID);
-	end
+
+
+
 -- function GetRoleIdFromRoleName(name)
 -- Returns nil if not found
 -- Returns Discord Role ID if found
@@ -115,5 +113,12 @@ RegisterCommand('testResource', function(source, args, rawCommand)
 	for i = 1, #roles do  
 		print(roles[i]);
 	end
-	print("Command ends"); -- DEBUG // Get rid of
+
+-- function CheckEqual(role1, role2)
+-- Returns false if not equal
+-- Returns true if equal 
+-- Usage:
+	local isRolesEqual = CheckEqual("Founder", 597446100206616596);
+	local isRolesEqual2 = CheckEqual("FounderRef", "Founder"); -- Refer to config.lua file, this is basically checking if FounderRef in the config is 
+	-- equal to the Founder role's ID 
 end)
