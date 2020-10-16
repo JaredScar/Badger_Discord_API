@@ -1,7 +1,11 @@
 # Badger_Discord_API
 A FiveM API Script [created by Badger]
 
-## How it works?
+## Notes
+Some methods of the API not may fully work or be broken. I was able to test most and 75% of it works. If something does not work, please just submit an 
+issue or pull request for it on the GitHub page. 
+
+## What is it?
 This is essentially a Discord API for FiveM. It utilizes the REST API of Discord for all your essential needs :)
 Things that are heavy in Discord rate limiting (such as retreiving all server roles and player avatars) will be automatically stored to a cache for 
 developers automatically. I will be moving all my scripts over to use this API for better ease of use. Some features include not having to gather role 
