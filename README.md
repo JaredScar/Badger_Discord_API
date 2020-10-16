@@ -3,7 +3,8 @@ A FiveM API Script [created by Badger]
 
 ## Notes
 Some methods of the API not may fully work or be broken. I was able to test most and 75% of it works. If something does not work, please just submit an 
-issue or pull request for it on the GitHub page. 
+issue or pull request for it on the GitHub page. I will be making a more reinforced documentation for this whole API sometime in the future, but for 
+now please just make use of the example.lua file for understanding it all. Thanks!
 
 ## What is it?
 This is essentially a Discord API for FiveM. It utilizes the REST API of Discord for all your essential needs :)
