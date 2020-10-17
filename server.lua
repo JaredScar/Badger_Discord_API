@@ -232,7 +232,7 @@ function GetDiscordAvatar(user)
             break
         end
     end
-    if Caches.Avatars[discordId] == nil then 
+    if Caches.Avatars == nil then 
 	    if discordId then 
 	        local endpoint = ("users/%s"):format(discordId)
 	        local member = DiscordRequest("GET", endpoint, {})
