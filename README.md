@@ -3,6 +3,9 @@
 ## Documentation
 https://docs.badger.store/fivem-discord-scripts/badger_discord_api
 
+## Jared's Developer Community [Discord]
+![Developer Discord](https://discordapp.com/api/guilds/597445834153525298/widget.png?style=banner4)
+
 ## Notes
 Some methods of the API not may fully work or be broken. I was able to test most and 75% of it works. If something does not work, please just submit an issue or pull request for it on the GitHub page. I will be making a more reinforced documentation for this whole API sometime in the future, but for now please just make use of the example.lua file for understanding it all. Thanks!
 
