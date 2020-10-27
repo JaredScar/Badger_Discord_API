@@ -302,7 +302,7 @@ function GetDiscordRoles(user)
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then
 			discordId = string.gsub(id, "discord:", "")
-			break
+			break;
 		end
 	end
 
@@ -315,13 +315,14 @@ function GetDiscordRoles(user)
 			local found = true
 			return roles
 		else
-			print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: "..member.data)
+			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND]")
 			return false
 		end
 	else
 		print("[Badger_Perms] ERROR: Discord was not connected to user's Fivem account...")
 		return false
 	end
+	return false
 end
 
 function GetDiscordNickname(user)
@@ -348,6 +349,7 @@ function GetDiscordNickname(user)
 		print("[Badger_Perms] ERROR: Discord was not connected to user's Fivem account...")
 		return nil;
 	end
+	return nil;
 end
 
 Citizen.CreateThread(function()
