@@ -1,7 +1,10 @@
 local FormattedToken = "Bot " .. Config.Bot_Token
 
 Citizen.CreateThread(function()
-	print("[" + GetResourceName() + "] " + "IMPORTANT: This resource must be named Badger_Discord_API for it to work properly with other scripts...");
+	print("[" + GetCurrentResourceName() + "] " + "IMPORTANT: This resource must be named Badger_Discord_API for it to work properly with other scripts...");
+	if (GetCurrentResourceName() ~= "Badger_Discord_API") then 
+		StopResource(GetCurrentResourceName());
+	end
 end)
 
 function DiscordRequest(method, endpoint, jsondata)
