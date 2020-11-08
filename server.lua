@@ -1,5 +1,9 @@
 local FormattedToken = "Bot " .. Config.Bot_Token
 
+Citizen.CreateThread(function()
+	print("[" + GetResourceName() + "] " + "IMPORTANT: This resource must be named Badger_Discord_API for it to work properly with other scripts...");
+end)
+
 function DiscordRequest(method, endpoint, jsondata)
     local data = nil
     PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
