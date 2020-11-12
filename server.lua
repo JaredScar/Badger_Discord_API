@@ -238,48 +238,42 @@ function GetDiscordAvatar(user)
             discordId = string.gsub(id, "discord:", "")
             break
         end
-    end
-    if Caches.Avatars == nil then 
-	    if discordId then 
-	        local endpoint = ("users/%s"):format(discordId)
-	        local member = DiscordRequest("GET", endpoint, {})
-	        if member.code == 200 then
-	            local data = json.decode(member.data)
-	            if data ~= nil and data.avatar ~= nil then 
-	                -- It is valid data 
-	                --print("The data for User " .. GetPlayerName(user) .. " is: ");
-	                --print(data.avatar);
-	                if (data.avatar:sub(1, 1) and data.avatar:sub(2, 2) == "_") then 
-	                    --print("IMG URL: " .. "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".gif")
-	                    imgURL = "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".gif";
-	                else 
-	                    --print("IMG URL: " .. "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".png")
-	                    imgURL = "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".png"
-	                end
-	                --print("---")
-	            end
-	        else 
-	        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: " .. member.data)
-	        end
-	    end
-	    if (Caches.Avatars ~= nil) then 
-	    	-- Add it 
-	    	local list = Caches.Avatars;
-	    	list[discordId] = imgURL;
-	    	Caches.Avatars = list;
-	    else 
-	    	-- Create a list 
-	    	local list = {};
-	    	list[discordId] = imgURL;
-	    	Caches.Avatars = list;
-	    end
+	end
+	if discordId then 
+		if Caches.Avatars[discordId] == nil then 
+			local endpoint = ("users/%s"):format(discordId)
+			local member = DiscordRequest("GET", endpoint, {})
+			if member.code == 200 then
+				local data = json.decode(member.data)
+				if data ~= nil and data.avatar ~= nil then 
+					-- It is valid data 
+					--print("The data for User " .. GetPlayerName(user) .. " is: ");
+					--print(data.avatar);
+					if (data.avatar:sub(1, 1) and data.avatar:sub(2, 2) == "_") then 
+						--print("IMG URL: " .. "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".gif")
+						imgURL = "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".gif";
+					else 
+						--print("IMG URL: " .. "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".png")
+						imgURL = "https://cdn.discordapp.com/avatars/" .. discordId .. "/" .. data.avatar .. ".png"
+					end
+					--print("---")
+				end
+			else 
+				print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: " .. member.data)
+			end
+			Caches.Avatars[discordId] = imgURL;
+		else 
+			imgURL = Caches.Avatars[discordId];
+		end 
 	else 
-		imgURL = Caches.Avatars[discordId];
+		print("[Badger_Perms] ERROR: Discord ID was not found...")
 	end
     return imgURL;
 end
 
-Caches = {}
+Caches = {
+	Avatars = {}
+}
 function ResetCaches()
 	Caches = {};
 end
