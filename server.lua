@@ -3,7 +3,14 @@ local FormattedToken = "Bot " .. Config.Bot_Token
 Citizen.CreateThread(function()
 	print("[" .. GetCurrentResourceName() .. "] " .. "IMPORTANT: This resource must be named Badger_Discord_API for it to work properly with other scripts...");
 	if (GetCurrentResourceName() ~= "Badger_Discord_API") then 
-		StopResource(GetCurrentResourceName());
+		--StopResource(GetCurrentResourceName());
+	end
+end)
+
+AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
+	if (GetCurrentResourceName() ~= "Badger_Discord_API") then 
+		TriggerClientEvent('chatMessage', -1, '^1[^5SCRIPT ERROR^1] ^3The script ^1' .. GetCurrentResourceName() .. ' ^3will not work properly... You must '
+	.. 'rename the resource to ^1Badger_Discord_API');
 	end
 end)
 
