@@ -5,15 +5,56 @@ Citizen.CreateThread(function()
 		--StopResource(GetCurrentResourceName());
 		print("[" .. GetCurrentResourceName() .. "] " .. "IMPORTANT: This resource must be named Badger_Discord_API for it to work properly with other scripts...");
 	end
+	print("[Badger_Discord_API] For support, make sure to join Badger's official Discord server: discord.gg/WjB5VFz");
 end)
 
-AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
+tracked = {}
+
+AddEventHandler('Badger_Discord_API:PlayerLoaded', function()
 	if (GetCurrentResourceName() ~= "Badger_Discord_API") then 
 		TriggerClientEvent('chatMessage', -1, '^1[^5SCRIPT ERROR^1] ^3The script ^1' .. GetCurrentResourceName() .. ' ^3will not work properly... You must '
 	.. 'rename the resource to ^1Badger_Discord_API');
 	end
+	local license = ExtractIdentifiers(source).license;
+	if (tracked[license] == nil) then 
+		tracked[license] = true;
+		TriggerClientEvent('chatMessage', source, 
+		'^1[^5Badger_Discord_API^1] ^3The Discord API script was created by Badger. You may join his Discord at: ^6discord.gg/WjB5VFz')
+	end
 end)
 
+function ExtractIdentifiers(src)
+    local identifiers = {
+        steam = "",
+        ip = "",
+        discord = "",
+        license = "",
+        xbl = "",
+        live = ""
+    }
+
+    --Loop over all identifiers
+    for i = 0, GetNumPlayerIdentifiers(src) - 1 do
+        local id = GetPlayerIdentifier(src, i)
+
+        --Convert it to a nice table.
+        if string.find(id, "steam") then
+            identifiers.steam = id
+        elseif string.find(id, "ip") then
+            identifiers.ip = id
+        elseif string.find(id, "discord") then
+            identifiers.discord = id
+        elseif string.find(id, "license") then
+            identifiers.license = id
+        elseif string.find(id, "xbl") then
+            identifiers.xbl = id
+        elseif string.find(id, "live") then
+            identifiers.live = id
+        end
+    end
+
+    return identifiers
+end
 function DiscordRequest(method, endpoint, jsondata)
     local data = nil
     PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
