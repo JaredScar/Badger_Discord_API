@@ -10,6 +10,7 @@ end)
 
 tracked = {}
 
+RegisterNetEvent('Badger_Discord_API:PlayerLoaded')
 AddEventHandler('Badger_Discord_API:PlayerLoaded', function()
 	if (GetCurrentResourceName() ~= "Badger_Discord_API") then 
 		TriggerClientEvent('chatMessage', -1, '^1[^5SCRIPT ERROR^1] ^3The script ^1' .. GetCurrentResourceName() .. ' ^3will not work properly... You must '
