@@ -18,7 +18,7 @@ server_scripts {
 
 server_exports { 
 	"GetDiscordRoles",
-	"GetRoleIdfromRoleName",
+	"GetRoleIdFromRoleName",
 	"GetDiscordAvatar",
 	"GetDiscordName",
 	"GetDiscordEmail",
