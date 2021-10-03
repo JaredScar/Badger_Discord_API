@@ -1,7 +1,7 @@
 # Badger_Discord_API
 
 ## Documentation
-[Installation Guide](https://docs.rocketdev.zone/written-tutorials/badger_discord_api)
+[Installation Guide](https://docs.badger.store/fivem-discord-scripts/badger_discord_api/installation-script)
 
 [API Development/ Implementation Docs](https://docs.badger.store/fivem-discord-scripts/badger_discord_api)
 
