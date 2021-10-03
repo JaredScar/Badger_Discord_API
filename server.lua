@@ -108,33 +108,41 @@ function CheckEqual(role1, role2)
 	local checkStr2 = false;
 	local roleID1 = role1;
 	local roleID2 = role2;
+	local searchGuild1 = true;
+	local searchGuild2 = true;
 	if type(role1) == "string" then checkStr1 = true end;
 	if type(role2) == "string" then checkStr2 = true end; 
 	if checkStr1 then 
-		local roles = GetGuildRoleList();
-		for roleName, roleID in pairs(roles) do 
-			if roleName == role1 then 
-				roleID1 = roleID;
-			end
-		end
 		local roles2 = Config.RoleList;
 		for roleRef, roleID in pairs(roles2) do 
 			if roleRef == role1 then 
 				roleID1 = roleID;
+				searchGuild1 = false;
+			end
+		end
+		if searchGuild1 then 
+			local roles = GetGuildRoleList();
+			for roleName, roleID in pairs(roles) do 
+				if roleName == role1 then 
+					roleID1 = roleID;
+				end
 			end
 		end
 	end
-	if checkStr2 then 
-		local roles = GetGuildRoleList();
-		for roleName, roleID in pairs(roles) do 
-			if roleName == role2 then 
-				roleID2 = roleID;
-			end
-		end
+	if checkStr2 then
 		local roles2 = Config.RoleList;
 		for roleRef, roleID in pairs(roles2) do 
 			if roleRef == role2 then 
 				roleID2 = roleID;
+				searchGuild2 = false;
+			end
+		end 
+		if searchGuild2 then 
+			local roles = GetGuildRoleList();
+			for roleName, roleID in pairs(roles) do 
+				if roleName == role2 then 
+					roleID2 = roleID;
+				end
 			end
 		end
 	end
