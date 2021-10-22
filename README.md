@@ -9,9 +9,10 @@
 [![Developer Discord](https://discordapp.com/api/guilds/597445834153525298/widget.png?style=banner4)](https://discord.com/invite/WjB5VFz)
 
 ## Sponsors
+### <a href='https://github.com/sponsors/JaredScar?frequency=one-time&sponsor=JaredScar' target='_blank'>Want your message here?</a>
 | Sponsor | Sponsor Message |
 | --- | --- |
-| <a href="https://github.com/JawshTheDark"><img height='50' width='50' src='https://avatars.githubusercontent.com/u/8483260?v=4' /></a> | Sponsored by North American Roleplaying Community - NARC <br /> <p align='center'>Visit us @ https://discord.gg/NARC</p> |
+| <a href="https://github.com/JawshTheDark" target='_blank'><img height='50' width='50' src='https://avatars.githubusercontent.com/u/8483260?v=4' /></a> | Sponsored by North American Roleplaying Community - NARC <br /> <p align='center'>Visit us @ https://discord.gg/NARC</p> |
 
 ## Notes
 Some methods of the API not may fully work or be broken. I was able to test most and 75% of it works. If something does not work, please just submit an issue or pull request for it on the GitHub page. I will be making a more reinforced documentation for this whole API sometime in the future, but for now please just make use of the example.lua file for understanding it all. Thanks!
