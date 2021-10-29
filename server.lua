@@ -174,7 +174,7 @@ function IsDiscordEmailVerified(user)
                 --print("---")
             end
         else 
-        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: " .. member.data)
+        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
         end
     end
     return isVerified;
@@ -202,7 +202,7 @@ function GetDiscordEmail(user)
                 --print("---")
             end
         else 
-        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: " .. member.data)
+        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
         end
     end
     return emailData;
@@ -230,7 +230,7 @@ function GetDiscordName(user)
                 --print("---")
             end
         else 
-        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: " .. member.data)
+        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
         end
     end
     return nameData;
@@ -341,7 +341,7 @@ function GetDiscordAvatar(user)
 					--print("---")
 				end
 			else 
-				print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: " .. member.data)
+				print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
 			end
 			Caches.Avatars[discordId] = imgURL;
 		else 
@@ -398,7 +398,7 @@ function GetDiscordRoles(user)
 			local found = true
 			return roles
 		else
-			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND]")
+			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] Error Code: " .. member.code)
 			return false
 		end
 	else
@@ -425,7 +425,7 @@ function GetDiscordNickname(user)
 			local nickname = data.nick
 			return nickname;
 		else
-			print("[Badger_Perms] ERROR: Code 200 was not reached. Error provided: "..member.data)
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: "..member.code)
 			return nil;
 		end
 	else
