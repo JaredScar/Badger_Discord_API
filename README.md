@@ -1,5 +1,8 @@
 # Badger_Discord_API
 
+## Visitor Count
+  <img src="https://profile-counter.glitch.me/JaredScar/count.svg" />
+
 ## Documentation
 [Installation Guide](https://docs.badger.store/fivem-discord-scripts/badger_discord_api/installation-script)
 
