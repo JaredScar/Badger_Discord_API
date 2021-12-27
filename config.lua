@@ -2,6 +2,8 @@ Config = {
 	Guild_ID = '',
 	Bot_Token = '',
 	RoleList = {},
+	CacheDiscordRoles = true, -- true to cache player roles, false to make a new Discord Request every time
+	CacheDiscordRolesTime = 60, -- if CacheDiscordRoles is true, how long to cache roles before clearing (in seconds)
 }
 
 Config.Splash = {

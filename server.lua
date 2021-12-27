@@ -392,7 +392,7 @@ function GetDiscordRoles(user)
 	end
 
 	if discordId then
-		if recent_role_cache[discordId] then
+		if Config.CacheDiscordRoles and recent_role_cache[discordId] then
 			return recent_role_cache[discordId]
 		end
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
@@ -401,8 +401,10 @@ function GetDiscordRoles(user)
 			local data = json.decode(member.data)
 			local roles = data.roles
 			local found = true
-			recent_role_cache[discordId] = roles
-			Citizen.SetTimeout(60000, function() recent_role_cache[discordId] = nil end)
+			if Config.CacheDiscordRoles then
+				recent_role_cache[discordId] = roles
+			end
+			Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId] = nil end)
 			return roles
 		else
 			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] Error Code: " .. member.code)
