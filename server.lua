@@ -403,8 +403,8 @@ function GetDiscordRoles(user)
 			local found = true
 			if Config.CacheDiscordRoles then
 				recent_role_cache[discordId] = roles
+				Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId] = nil end)
 			end
-			Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId] = nil end)
 			return roles
 		else
 			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] Error Code: " .. member.code)
