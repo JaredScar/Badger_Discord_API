@@ -1,6 +1,6 @@
 Config = {
-	Guild_ID = '',
-	Bot_Token = '',
+	Guild_ID = '931912505897386024',
+	Bot_Token = 'OTMzMjQ5MjY1ODU2MjgyNjI0.YeeyGw.pQQO8VknxrdJWs_OGxh9SdKyFZk',
 	RoleList = {},
 	CacheDiscordRoles = true, -- true to cache player roles, false to make a new Discord Request every time
 	CacheDiscordRolesTime = 60, -- if CacheDiscordRoles is true, how long to cache roles before clearing (in seconds)
@@ -12,6 +12,6 @@ Config.Splash = {
 	Wait = 10, -- How many seconds should splash page be shown for? (Max is 12)
 	Heading1 = "Welcome to [ServerName]",
 	Heading2 = "Make sure to join our Discord and check out our website!",
-	Discord_Link = 'https://discord.gg',
-	Website_Link = 'https://badger.store',
+	Discord_Link = 'https://discord.gg/szCAtdz8',
+	Website_Link = '',
 }
