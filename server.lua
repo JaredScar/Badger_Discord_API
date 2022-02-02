@@ -1,5 +1,15 @@
 local FormattedToken = "Bot " .. Config.Bot_Token
 
+local error_codes_defined = {
+	[200] = 'OK - The request was completed successfully..!',
+	[400] = "Error - The request was improperly formatted, or the server couldn't understand it..!",
+	[401] = 'Error - The Authorization header was missing or invalid..! Your Discord Token is probably wrong or does not have correct permissions attributed to it.',
+	[403] = 'Error - The Authorization token you passed did not have permission to the resource..! Your Discord Token is probably wrong or does not have correct permissions attributed to it.'
+	[404] = "Error - The resource at the location specified doesn't exist.",
+	[429] = 'Error - Too many requests, you hit the Discord rate limit. https://discord.com/developers/docs/topics/rate-limits',
+	[502] = 'Error - Discord API may be down?...'
+};
+
 Citizen.CreateThread(function()
 	if (GetCurrentResourceName() ~= "Badger_Discord_API") then 
 		--StopResource(GetCurrentResourceName());
@@ -174,7 +184,7 @@ function IsDiscordEmailVerified(user)
                 --print("---")
             end
         else 
-        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
+        	print("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code]);
         end
     end
     return isVerified;
@@ -202,7 +212,7 @@ function GetDiscordEmail(user)
                 --print("---")
             end
         else 
-        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
+        	print("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
         end
     end
     return emailData;
@@ -230,7 +240,7 @@ function GetDiscordName(user)
                 --print("---")
             end
         else 
-        	print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
+        	print("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
         end
     end
     return nameData;
@@ -341,7 +351,7 @@ function GetDiscordAvatar(user)
 					--print("---")
 				end
 			else 
-				print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. member.code)
+				print("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
 			end
 			Caches.Avatars[discordId] = imgURL;
 		else 
@@ -407,7 +417,7 @@ function GetDiscordRoles(user)
 			end
 			return roles
 		else
-			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] Error Code: " .. member.code)
+			print("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] DETAILS: " .. error_codes_defined[member.code])
 			return false
 		end
 	else
@@ -434,7 +444,7 @@ function GetDiscordNickname(user)
 			local nickname = data.nick
 			return nickname;
 		else
-			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: "..member.code)
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 			return nil;
 		end
 	else
