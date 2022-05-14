@@ -1,5 +1,9 @@
 Config = {
-	Guild_ID = '',
+	Guild_ID = '', -- Set to the ID of your guild (or your Primary guild if using Multiguild)
+  Multiguild = false, -- Set to true if you want to use multiple guilds
+  Guilds = {
+    ["name"] = "guild_id", -- Replace this with a name, like "main"
+  },
 	Bot_Token = '',
 	RoleList = {},
 	CacheDiscordRoles = true, -- true to cache player roles, false to make a new Discord Request every time
