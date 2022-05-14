@@ -69,6 +69,14 @@ function GetIdentifier(source, id_type)
     return nil
 end
 
+function GetGuildId (guildName)
+  local result = Config.Guild_ID
+  if guildName and Config.Guilds[guildName] then
+    result = tostring(Config.Guilds[guildName])
+  end
+  return result
+end
+
 function DiscordRequest(method, endpoint, jsondata)
     local data = nil
     PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
@@ -82,16 +90,17 @@ function DiscordRequest(method, endpoint, jsondata)
     return data
 end
 
-function GetRoleIdFromRoleName(name)
-	if (Caches.RoleList ~= nil) then 
+function GetRoleIdFromRoleName(name, guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	if (Caches.RoleList[guildId] ~= nil) then 
 		return tonumber(Caches.RoleList[name]);
 	else 
-		local roles = GetGuildRoleList();
+		local roles = GetGuildRoleList(guild);
 		return tonumber(roles[name]);
 	end
 end
 
-function CheckEqual(role1, role2)
+function CheckEqual(role1, role2, guild --[[optional]])
 	local checkStr1 = false;
 	local checkStr2 = false;
 	local roleID1 = role1;
@@ -109,7 +118,7 @@ function CheckEqual(role1, role2)
 			end
 		end
 		if searchGuild1 then 
-			local roles = GetGuildRoleList();
+			local roles = GetGuildRoleList(guild);
 			for roleName, roleID in pairs(roles) do 
 				if roleName == role1 then 
 					roleID1 = roleID;
@@ -126,7 +135,7 @@ function CheckEqual(role1, role2)
 			end
 		end 
 		if searchGuild2 then 
-			local roles = GetGuildRoleList();
+			local roles = GetGuildRoleList(guild);
 			for roleName, roleID in pairs(roles) do 
 				if roleName == role2 then 
 					roleID2 = roleID;
@@ -224,8 +233,9 @@ function GetDiscordName(user)
     return nameData;
 end
 
-function GetGuildIcon()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
+function GetGuildIcon(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	local guild = DiscordRequest("GET", "guilds/"..guildId, {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		if (data.icon:sub(1, 1) and data.icon:sub(2, 2) == "_") then 
@@ -241,8 +251,9 @@ function GetGuildIcon()
 	return nil;
 end
 
-function GetGuildSplash()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
+function GetGuildSplash(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	local guild = DiscordRequest("GET", "guilds/"..guildId, {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		-- Image 
@@ -253,8 +264,9 @@ function GetGuildSplash()
 	return nil;
 end 
 
-function GetGuildName()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
+function GetGuildName(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	local guild = DiscordRequest("GET", "guilds/"..guildId, {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		-- Image 
@@ -265,8 +277,9 @@ function GetGuildName()
 	return nil;
 end
 
-function GetGuildDescription()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
+function GetGuildDescription(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	local guild = DiscordRequest("GET", "guilds/"..guildId, {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		-- Image 
@@ -277,8 +290,9 @@ function GetGuildDescription()
 	return nil;
 end
 
-function GetGuildMemberCount()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID.."?with_counts=true", {})
+function GetGuildMemberCount(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	local guild = DiscordRequest("GET", "guilds/"..guildId.."?with_counts=true", {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		-- Image 
@@ -289,8 +303,9 @@ function GetGuildMemberCount()
 	return nil;
 end
 
-function GetGuildOnlineMemberCount()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID.."?with_counts=true", {})
+function GetGuildOnlineMemberCount(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	local guild = DiscordRequest("GET", "guilds/"..guildId.."?with_counts=true", {})
 	if guild.code == 200 then
 		local data = json.decode(guild.data)
 		return data.approximate_presence_count;
@@ -342,15 +357,20 @@ function GetDiscordAvatar(user)
 end
 
 Caches = {
-	Avatars = {}
+	Avatars = {},
+  RoleList = {}
 }
 function ResetCaches()
-	Caches = {};
+	Caches = {
+    Avatars = {},
+    RoleList = {},
+  };
 end
 
-function GetGuildRoleList()
-	if (Caches.RoleList == nil) then 
-		local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
+function GetGuildRoleList(guild --[[optional]])
+  local guildId = GetGuildId(guild)
+	if (Caches.RoleList[guildId] == nil) then 
+		local guild = DiscordRequest("GET", "guilds/"..guildId, {})
 		if guild.code == 200 then
 			local data = json.decode(guild.data)
 			-- Image 
@@ -359,19 +379,20 @@ function GetGuildRoleList()
 			for i = 1, #roles do 
 				roleList[roles[i].name] = roles[i].id;
 			end
-			Caches.RoleList = roleList;
+			Caches.RoleList[guildId] = roleList;
 		else
 			print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 			Caches.RoleList = nil;
 		end
 	end
-	return Caches.RoleList;
+	return Caches.RoleList[guildId];
 end
 
 local recent_role_cache = {}
 
-function GetDiscordRoles(user)
+function GetDiscordRoles(user, guild --[[optional]])
 	local discordId = nil
+  local guildId = GetGuildId(guild)
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then
 			discordId = string.gsub(id, "discord:", "")
@@ -383,7 +404,7 @@ function GetDiscordRoles(user)
 		if Config.CacheDiscordRoles and recent_role_cache[discordId] then
 			return recent_role_cache[discordId]
 		end
-		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+		local endpoint = ("guilds/%s/members/%s"):format(guildId, discordId)
 		local member = DiscordRequest("GET", endpoint, {})
 		if member.code == 200 then
 			local data = json.decode(member.data)
@@ -433,11 +454,20 @@ function GetDiscordNickname(user)
 end
 
 Citizen.CreateThread(function()
-	local guild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
-	if guild.code == 200 then
-		local data = json.decode(guild.data)
-		print("[Badger_Perms] Permission system guild set to: "..data.name.." ("..data.id..")")
-	else
-		print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
-	end
+  local mguild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
+  if mguild.code == 200 then
+    local data = json.decode(mguild.data)
+    print("[Badger_Perms] Successful connection to Guild : "..data.name.." ("..data.id..")")
+  else
+    print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(mguild.data and json.decode(mguild.data) or mguild.code)) 
+  end
+  for _,guildID in pairs(Config.Guilds) do
+    local guild = DiscordRequest("GET", "guilds/"..guildID, {})
+    if guild.code == 200 then
+      local data = json.decode(guild.data)
+      print("[Badger_Perms] Successful connection to Guild : "..data.name.." ("..data.id..")")
+    else
+      print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data and json.decode(guild.data) or guild.code)) 
+    end
+  end
 end)
