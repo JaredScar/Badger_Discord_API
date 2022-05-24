@@ -461,13 +461,15 @@ Citizen.CreateThread(function()
   else
     print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(mguild.data and json.decode(mguild.data) or mguild.code)) 
   end
-  for _,guildID in pairs(Config.Guilds) do
-    local guild = DiscordRequest("GET", "guilds/"..guildID, {})
-    if guild.code == 200 then
-      local data = json.decode(guild.data)
-      print("[Badger_Perms] Successful connection to Guild : "..data.name.." ("..data.id..")")
-    else
-      print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data and json.decode(guild.data) or guild.code)) 
+  if (Config.Multiguild) then 
+    for _,guildID in pairs(Config.Guilds) do
+      local guild = DiscordRequest("GET", "guilds/"..guildID, {})
+      if guild.code == 200 then
+        local data = json.decode(guild.data)
+        print("[Badger_Perms] Successful connection to Guild : "..data.name.." ("..data.id..")")
+      else
+        print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data and json.decode(guild.data) or guild.code)) 
+      end
     end
   end
 end)
