@@ -426,8 +426,9 @@ function GetDiscordRoles(user, guild --[[optional]])
 	return false
 end
 
-function GetDiscordNickname(user)
+function GetDiscordNickname(user, guild --[[optional]])
 	local discordId = nil
+  local guildId = GetGuildId(guild)
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then
 			discordId = string.gsub(id, "discord:", "")
@@ -436,7 +437,7 @@ function GetDiscordNickname(user)
 	end
 
 	if discordId then
-		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+		local endpoint = ("guilds/%s/members/%s"):format(guildId, discordId)
 		local member = DiscordRequest("GET", endpoint, {})
 		if member.code == 200 then
 			local data = json.decode(member.data)
