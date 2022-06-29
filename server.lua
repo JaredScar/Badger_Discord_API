@@ -401,8 +401,8 @@ function GetDiscordRoles(user, guild --[[optional]])
 	end
 
 	if discordId then
-		if Config.CacheDiscordRoles and recent_role_cache[discordId] then
-			return recent_role_cache[discordId]
+		if Config.CacheDiscordRoles and recent_role_cache[discordId] and recent_role_cache[discordId][guildId] then
+			return recent_role_cache[discordId][guildId]
 		end
 		local endpoint = ("guilds/%s/members/%s"):format(guildId, discordId)
 		local member = DiscordRequest("GET", endpoint, {})
@@ -411,8 +411,9 @@ function GetDiscordRoles(user, guild --[[optional]])
 			local roles = data.roles
 			local found = true
 			if Config.CacheDiscordRoles then
-				recent_role_cache[discordId] = roles
-				Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId] = nil end)
+        recent_role_cache[discordId] = recent_role_cache[discordId] or {}
+				recent_role_cache[discordId][guildId] = roles
+				Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId][guildId] = nil end)
 			end
 			return roles
 		else
