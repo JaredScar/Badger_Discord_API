@@ -100,53 +100,46 @@ function GetRoleIdFromRoleName(name, guild --[[optional]])
 	end
 end
 
+function FetchRoleID(roleID2Check, guild --[[optional]])
+    local checkStr = false
+    local searchGuild = true
+    local tempRoleID = roleID2Check
+
+    if type(roleID2Check) == "string" then checkStr = true end
+
+    if checkStr then
+	local rolesListFromConfig = Config.RoleList
+
+	for roleRef, roleID in pairs(rolesListFromConfig) do
+	    if roleRef == roleID2Check then
+		tempRoleID = roleID
+		searchGuild = false
+	    end
+	end
+
+	if searchGuild then 
+	    local fetchedRolesList = GetGuildRoleList(guild)
+
+	    for roleName, roleID in pairs(fetchedRolesList) do 
+		if roleName == roleID2Check then 
+		   tempRoleID = roleID
+		end
+	    end
+	end
+    end
+
+    return tonumber(tempRoleID)
+end
+
 function CheckEqual(role1, role2, guild --[[optional]])
-	local checkStr1 = false;
-	local checkStr2 = false;
-	local roleID1 = role1;
-	local roleID2 = role2;
-	local searchGuild1 = true;
-	local searchGuild2 = true;
-	if type(role1) == "string" then checkStr1 = true end;
-	if type(role2) == "string" then checkStr2 = true end; 
-	if checkStr1 then 
-		local roles2 = Config.RoleList;
-		for roleRef, roleID in pairs(roles2) do 
-			if roleRef == role1 then 
-				roleID1 = roleID;
-				searchGuild1 = false;
-			end
-		end
-		if searchGuild1 then 
-			local roles = GetGuildRoleList(guild);
-			for roleName, roleID in pairs(roles) do 
-				if roleName == role1 then 
-					roleID1 = roleID;
-				end
-			end
-		end
-	end
-	if checkStr2 then
-		local roles2 = Config.RoleList;
-		for roleRef, roleID in pairs(roles2) do 
-			if roleRef == role2 then 
-				roleID2 = roleID;
-				searchGuild2 = false;
-			end
-		end 
-		if searchGuild2 then 
-			local roles = GetGuildRoleList(guild);
-			for roleName, roleID in pairs(roles) do 
-				if roleName == role2 then 
-					roleID2 = roleID;
-				end
-			end
-		end
-	end
-	if tonumber(roleID1) == tonumber(roleID2) then 
-		return true;
-	end
-	return false;
+    local roleID1 = FetchRoleID(role1, guild)
+    local roleID2 = FetchRoleID(role2, guild)
+
+    if roleID1 == roleID2 then 
+	return true
+    end
+
+    return false
 end
 
 function IsDiscordEmailVerified(user) 
