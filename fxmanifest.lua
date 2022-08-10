@@ -32,5 +32,6 @@ server_exports {
 	"GetGuildOnlineMemberCount",
 	"GetGuildRoleList",
 	"ResetCaches",
-	"CheckEqual"
+	"CheckEqual",
+	"SetNickname"
 } 

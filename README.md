@@ -156,6 +156,12 @@ RegisterCommand('testResource', function(source, args, rawCommand)
 	local isRolesEqual = CheckEqual("Founder", 597446100206616596);
 	local isRolesEqual2 = CheckEqual("FounderRef", "Founder"); -- Refer to config.lua file, this is basically checking if FounderRef in the config is 
 	-- equal to the Founder role's ID 
+
+-- function SetNickname(user, nickname)
+-- Returns error code 403 if the user is higher than the bot
+-- Usage:
+	SetNickname(user, "🦡Badger")
+	SetNickname(user, "")
 end)
 ```
 
