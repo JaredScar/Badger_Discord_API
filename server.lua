@@ -79,7 +79,7 @@ end
 
 function DiscordRequest(method, endpoint, jsondata)
     local data = nil
-    PerformHttpRequest("https://discord.com/api/v10/"..endpoint, function(errorCode, resultData, resultHeaders)
+    PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
 		data = {data=resultData, code=errorCode, headers=resultHeaders}
     end, method, #jsondata > 0 and jsondata or "", {["Content-Type"] = "application/json", ["Authorization"] = FormattedToken})
 
