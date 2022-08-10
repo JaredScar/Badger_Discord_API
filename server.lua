@@ -79,9 +79,9 @@ end
 
 function DiscordRequest(method, endpoint, jsondata)
     local data = nil
-    PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
+    PerformHttpRequest("https://discord.com/api/v10/"..endpoint, function(errorCode, resultData, resultHeaders)
 		data = {data=resultData, code=errorCode, headers=resultHeaders}
-    end, method, #jsondata > 0 and json.encode(jsondata) or "", {["Content-Type"] = "application/json", ["Authorization"] = FormattedToken})
+    end, method, #jsondata > 0 and jsondata or "", {["Content-Type"] = "application/json", ["Authorization"] = FormattedToken})
 
     while data == nil do
         Citizen.Wait(0)
@@ -446,6 +446,25 @@ function GetDiscordNickname(user, guild --[[optional]])
 		return nil;
 	end
 	return nil;
+end
+
+function SetNickname(user, nickname)
+	local discordId = nil
+	for _, id in ipairs(GetPlayerIdentifiers(user)) do
+		if string.match(id, 'discord:') then
+			discordId = string.gsub(id, 'discord:', '')
+			break
+		end
+	end
+
+	if discordId then
+		local name = nickname or ""
+		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}))
+		if member.code ~= 200 then
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+		end
+	end
 end
 
 Citizen.CreateThread(function()
