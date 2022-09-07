@@ -375,7 +375,7 @@ function GetGuildRoleList(guild --[[optional]])
 			Caches.RoleList[guildId] = roleList;
 		else
 			print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
-			Caches.RoleList = nil;
+			Caches.RoleList[guildId] = nil;
 		end
 	end
 	return Caches.RoleList[guildId];
