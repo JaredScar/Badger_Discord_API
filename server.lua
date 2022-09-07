@@ -93,7 +93,7 @@ end
 function GetRoleIdFromRoleName(name, guild --[[optional]])
   local guildId = GetGuildId(guild)
 	if (Caches.RoleList[guildId] ~= nil) then 
-		return tonumber(Caches.RoleList[name]);
+		return tonumber(Caches.RoleList[guildId][name]);
 	else 
 		local roles = GetGuildRoleList(guild);
 		return tonumber(roles[name]);
