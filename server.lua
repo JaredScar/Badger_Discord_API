@@ -134,8 +134,7 @@ end
 function CheckEqual(role1, role2, guild --[[optional]])
     local roleID1 = FetchRoleID(role1, guild)
     local roleID2 = FetchRoleID(role2, guild)
-
-    if roleID1 == roleID2 then 
+    if roleID1 == roleID2 and type(roleID1) ~= "nil" then 
 	return true
     end
 
