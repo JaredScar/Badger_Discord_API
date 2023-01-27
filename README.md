@@ -163,6 +163,11 @@ RegisterCommand('testResource', function(source, args, rawCommand)
 -- Usage:
 	SetNickname(user, "🦡Badger")
 	SetNickname(user, "")
+
+-- function ChangeDiscordVoice(user, voiceID)
+-- Returns error code 400 if voice channel ID is incorrect
+-- Usage:
+	ChangeDiscordVoice(user, 123456789123456789)
 end)
 ```
 

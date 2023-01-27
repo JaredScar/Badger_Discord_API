@@ -77,11 +77,11 @@ function GetGuildId (guildName)
   return result
 end
 
-function DiscordRequest(method, endpoint, jsondata)
+function DiscordRequest(method, endpoint, jsondata, reason)
     local data = nil
     PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
 		data = {data=resultData, code=errorCode, headers=resultHeaders}
-    end, method, #jsondata > 0 and jsondata or "", {["Content-Type"] = "application/json", ["Authorization"] = FormattedToken})
+    end, method, #jsondata > 0 and jsondata or "", {["Content-Type"] = "application/json", ["Authorization"] = FormattedToken, ['X-Audit-Log-Reason'] = reason})
 
     while data == nil do
         Citizen.Wait(0)
@@ -459,7 +459,24 @@ function SetNickname(user, nickname)
 	if discordId then
 		local name = nickname or ""
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
-		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}))
+		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}), "Reason for the API call")
+		if member.code ~= 200 then
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+		end
+	end
+end
+
+function ChangeDiscordVoice(user, voice)
+	local discordId = nil
+	for _, id in ipairs(GetPlayerIdentifiers(user)) do
+		if string.match(id, "discord:") then
+			discordId = string.gsub(id, "discord:", "")
+		end
+	end
+
+	if discordId then
+		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+		local member = DiscordRequest("PATCH", endpoint, json.encode({channel_id = voice}), "Reason for the API call")
 		if member.code ~= 200 then
 			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
