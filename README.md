@@ -161,13 +161,14 @@ RegisterCommand('testResource', function(source, args, rawCommand)
 -- function SetNickname(user, nickname)
 -- Returns error code 403 if the user is higher than the bot
 -- Usage:
-	SetNickname(user, "🦡Badger")
-	SetNickname(user, "")
+	SetNickname(user, "🦡Badger", "Set nickname")
+	SetNickname(user, "", "Reset nickname")
 
 -- function ChangeDiscordVoice(user, voiceID)
 -- Returns error code 400 if voice channel ID is incorrect
 -- Usage:
 	ChangeDiscordVoice(user, 123456789123456789)
+	ChangeDiscordVoice(user, 123456789123456789, "Moved "..GetPlayerName(user).." to the admin channel")
 end)
 ```
 

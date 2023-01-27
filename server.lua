@@ -447,7 +447,7 @@ function GetDiscordNickname(user, guild --[[optional]])
 	return nil;
 end
 
-function SetNickname(user, nickname)
+function SetNickname(user, nickname, reason)
 	local discordId = nil
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, 'discord:') then
@@ -459,14 +459,14 @@ function SetNickname(user, nickname)
 	if discordId then
 		local name = nickname or ""
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
-		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}), "Reason for the API call")
+		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}), reason)
 		if member.code ~= 200 then
 			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
 end
 
-function ChangeDiscordVoice(user, voice)
+function ChangeDiscordVoice(user, voice, reason)
 	local discordId = nil
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then
@@ -476,7 +476,7 @@ function ChangeDiscordVoice(user, voice)
 
 	if discordId then
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
-		local member = DiscordRequest("PATCH", endpoint, json.encode({channel_id = voice}), "Reason for the API call")
+		local member = DiscordRequest("PATCH", endpoint, json.encode({channel_id = voice}), reason)
 		if member.code ~= 200 then
 			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
