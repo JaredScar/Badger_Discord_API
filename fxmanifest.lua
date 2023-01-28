@@ -33,5 +33,6 @@ server_exports {
 	"GetGuildRoleList",
 	"ResetCaches",
 	"CheckEqual",
-	"SetNickname"
+	"SetNickname",
+	"ChangeDiscordVoice"
 } 
