@@ -466,6 +466,70 @@ function SetNickname(user, nickname, reason)
 	end
 end
 
+function AddRole(user, roleId, reason)
+	local discordId = nil
+	for _, id in ipairs(GetPlayerIdentifiers(user)) do
+		if string.match(id, 'discord:') then
+			discordId = string.gsub(id, 'discord:', '')
+			break
+		end
+	end
+
+	if discordId then
+		local roles = GetDiscordRoles(user) or {}
+		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+		table.insert(roles, roleId)
+		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roles}), reason)
+		if member.code ~= 200 then
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+		end
+	end
+end
+
+function RemoveRole(user, roleId, reason)
+	local discordId = nil
+	for _, id in ipairs(GetPlayerIdentifiers(user)) do
+		if string.match(id, 'discord:') then
+			discordId = string.gsub(id, 'discord:', '')
+			break
+		end
+	end
+
+	if discordId then
+		local roles = GetDiscordRoles(user) or {}
+		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+
+		for k, v in pairs(roles) do
+			if v == roleId then
+				roles[k] = nil
+			end
+		end
+
+		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roles}), reason)
+		if member.code ~= 200 then
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+		end
+	end
+end
+
+function SetRoles(user, roleList, reason)
+	local discordId = nil
+	for _, id in ipairs(GetPlayerIdentifiers(user)) do
+		if string.match(id, 'discord:') then
+			discordId = string.gsub(id, 'discord:', '')
+			break
+		end
+	end
+
+	if discordId then
+		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
+		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roleList}), reason)
+		if member.code ~= 200 then
+			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+		end
+	end
+end
+
 function ChangeDiscordVoice(user, voice, reason)
 	local discordId = nil
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do

@@ -34,5 +34,8 @@ server_exports {
 	"ResetCaches",
 	"CheckEqual",
 	"SetNickname",
+	"SetRoles",
+	"AddRole",
+	"RemoveRole"
 	"ChangeDiscordVoice"
 } 
