@@ -133,7 +133,7 @@ RegisterCommand('testResource', function(source, args, rawCommand)
 -- Usage:
 	AddRole(user, "1038448129709723670", "Add role")
 
--- function SetRoles(user, roleId, reason)
+-- function SetRoles(user, roleList, reason)
 -- Returns error code 403 if the user is higher than the bot
 -- Usage:
 	RemoveRole(user, { "1038448129709723670" }, "Set roles")
