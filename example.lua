@@ -128,6 +128,21 @@ RegisterCommand('testResource', function(source, args, rawCommand)
 	SetNickname(user, "🦡Badger", "Set nickname")
 	SetNickname(user, "", "Reset nickname")
 
+-- function AddRole(user, roleId, reason)
+-- Returns error code 403 if the user is higher than the bot
+-- Usage:
+	AddRole(user, "1038448129709723670", "Add role")
+
+-- function SetRoles(user, roleList, reason)
+-- Returns error code 403 if the user is higher than the bot
+-- Usage:
+	SetRoles(user, { "1038448129709723670" }, "Set roles")
+
+-- function RemoveRole(user, roleId, reason)
+-- Returns error code 403 if the user is higher than the bot
+-- Usage:
+	RemoveRole(user, "1038448129709723670", "Remove role")
+
 -- function ChangeDiscordVoice(user, voiceID)
 -- Returns error code 400 if voice channel ID is incorrect
 -- Usage:
