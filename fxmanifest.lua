@@ -36,6 +36,6 @@ server_exports {
 	"SetNickname",
 	"SetRoles",
 	"AddRole",
-	"RemoveRole"
+	"RemoveRole",
 	"ChangeDiscordVoice"
 } 
