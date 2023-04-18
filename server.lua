@@ -382,8 +382,12 @@ end
 
 local recent_role_cache = {}
 
+function ClearCache() 
+	recent_role_cache = {};
+end
+
 function GetDiscordRoles(user, guild --[[optional]])
-	local discordId = nil
+  local discordId = nil
   local guildId = GetGuildId(guild)
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then

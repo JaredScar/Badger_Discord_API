@@ -37,5 +37,6 @@ server_exports {
 	"SetRoles",
 	"AddRole",
 	"RemoveRole",
-	"ChangeDiscordVoice"
+	"ChangeDiscordVoice",
+	"ClearCache"
 } 
