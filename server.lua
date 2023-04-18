@@ -383,7 +383,9 @@ end
 local recent_role_cache = {}
 
 function ClearCache(discordId) 
-	recent_role_cache[discordId] = {};
+	if (discordId ~= nil) then 
+		recent_role_cache[discordId] = {};
+	end
 end
 
 function GetDiscordRoles(user, guild --[[optional]])
