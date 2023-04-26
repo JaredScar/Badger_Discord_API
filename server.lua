@@ -101,52 +101,43 @@ function GetRoleIdFromRoleName(name, guild --[[optional]])
 end
 
 function FetchRoleID(roleID2Check, guild --[[optional]])
-    local checkStr = false
-    local searchGuild = true
-    local tempRoleID = roleID2Check
-    local roleExists = false
+    -- You gave me an ID, here it is back to you.
+    if type(roleID2Check) == "number" then return roleID2Check end
+    -- You gave me a non-string, non-number. I can't help you.
+    if type(roleID2Check) ~= "string" then return nil end
 
-    if type(roleID2Check) == "string" then checkStr = true end
-
-    if checkStr then
-	local rolesListFromConfig = Config.RoleList
-
-	for roleRef, roleID in pairs(rolesListFromConfig) do
-	    if roleRef == roleID2Check then
-		tempRoleID = roleID
-		searchGuild = false
-		roleExists = true
-	    end
-	end
-
-	if searchGuild then 
-	    local fetchedRolesList = GetGuildRoleList(guild)
-
-	    for roleName, roleID in pairs(fetchedRolesList) do 
-		if roleName == roleID2Check then 
-		   tempRoleID = roleID
-		   roleExists = true
-		end
-	    end
-	end
+    -- It's a string, therefore name -- search config rolelist
+    local rolesListFromConfig = Config.RoleList
+    if rolesListFromConfig[roleID2Check] then
+      -- It's a named role in the config. Here you go!
+      return tonumber(rolesListFromConfig[roleID2Check])
     end
-	
-    if (Config.Multiguild and not roleExists) then 
-	local useNext = false
-	if (Config.Guild_ID == guild) then 
-	    useNext = true
-	end
-    	for guildName, guildId in pairs(Config.Guilds) do
-	    if (guildId == guild) then 
-	        useNext = true
-	    end
-	    if (useNext) then 
-	        return FetchRoleID(tempRoleId, guildId);
-	    end
-	end
+    -- Oops, didn't find in config rolelist, search by name in current guild
+    local fetchedRolesList = GetGuildRoleList(guild)
+    if fetchedRolesList[roleID2Check] then
+      -- We found it in the current guild. Here you go!
+      return tonumber(fetchedRolesList[roleID2Check])
+    end
+    -- Okay, still no luck. Search Main guild for role by name (if main isn't current guild)
+    if GetGuildId(guild) ~= tostring(Config.Guild_ID) then
+      local mainRolesList = GetGuildRoleList()
+      if mainRolesList[roleID2Check] then
+        -- We found it in the current guild. Here you go!
+        return tonumber(mainRolesList[roleID2Check])
+      end
+    end
+    -- Big oops, didn't find in current guild, or main guild. Search by name in all guilds!
+    if (Config.Multiguild and not roleFound) then
+      for guildName, guildID in pairs(Config.Guilds) do
+        local thisRolesList = GetGuildRoleList(guildName)
+        if thisRolesList[roleID2Check] then
+          -- We found it in the current guild. Here you go!
+          return tonumber(thisRolesList[roleID2Check])
+        end
+      end
     end
 
-    return tonumber(tempRoleID)
+    return nil -- Sorry, couldn't find anywhere
 end
 
 function CheckEqual(role1, role2, guild --[[optional]])
