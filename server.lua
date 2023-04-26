@@ -104,6 +104,7 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
     local checkStr = false
     local searchGuild = true
     local tempRoleID = roleID2Check
+    local roleExists = false
 
     if type(roleID2Check) == "string" then checkStr = true end
 
@@ -114,6 +115,7 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
 	    if roleRef == roleID2Check then
 		tempRoleID = roleID
 		searchGuild = false
+		roleExists = true
 	    end
 	end
 
@@ -123,7 +125,23 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
 	    for roleName, roleID in pairs(fetchedRolesList) do 
 		if roleName == roleID2Check then 
 		   tempRoleID = roleID
+		   roleExists = true
 		end
+	    end
+	end
+    end
+	
+    if (Config.Multiguild and not roleExists) then 
+	local useNext = false
+	if (Config.Guild_ID == guild) then 
+	    useNext = true
+	end
+    	for guildName, guildId in pairs(Config.Guilds) do
+	    if (guildId == guild) then 
+	        useNext = true
+	    end
+	    if (useNext) then 
+	        return FetchRoleID(tempRoleId, guildId);
 	    end
 	end
     end
