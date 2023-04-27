@@ -113,10 +113,12 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
       return tonumber(rolesListFromConfig[roleID2Check])
     end
     -- Oops, didn't find in config rolelist, search by name in current guild
-    local fetchedRolesList = GetGuildRoleList(guild)
-    if fetchedRolesList[roleID2Check] then
-      -- We found it in the current guild. Here you go!
-      return tonumber(fetchedRolesList[roleID2Check])
+    if (guild ~= nil) then 
+        local fetchedRolesList = GetGuildRoleList(guild)
+        if fetchedRolesList[roleID2Check] then
+	-- We found it in the current guild. Here you go!
+	    return tonumber(fetchedRolesList[roleID2Check])
+	end
     end
     -- Okay, still no luck. Search Main guild for role by name (if main isn't current guild)
     if GetGuildId(guild) ~= tostring(Config.Guild_ID) then
@@ -127,6 +129,8 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
       end
     end
     -- Big oops, didn't find in current guild, or main guild. Search by name in all guilds!
+    --[[
+    -- Due to a security flaw in the below code, it was redacted for good reason...
     if (Config.Multiguild and not roleFound) then
       for guildName, guildID in pairs(Config.Guilds) do
         local thisRolesList = GetGuildRoleList(guildName)
@@ -136,6 +140,7 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
         end
       end
     end
+    ]]--
 
     return nil -- Sorry, couldn't find anywhere
 end
