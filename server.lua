@@ -116,17 +116,17 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
     if (guild ~= nil) then 
         local fetchedRolesList = GetGuildRoleList(guild)
         if fetchedRolesList[roleID2Check] then
-	-- We found it in the current guild. Here you go!
-	    return tonumber(fetchedRolesList[roleID2Check])
-	end
+			-- We found it in the current guild. Here you go!
+	    	return tonumber(fetchedRolesList[roleID2Check])
+		end
     end
     -- Okay, still no luck. Search Main guild for role by name (if main isn't current guild)
     if GetGuildId(guild) ~= tostring(Config.Guild_ID) then
-      local mainRolesList = GetGuildRoleList()
-      if mainRolesList[roleID2Check] then
-        -- We found it in the current guild. Here you go!
-        return tonumber(mainRolesList[roleID2Check])
-      end
+    	local mainRolesList = GetGuildRoleList()
+    	if mainRolesList[roleID2Check] then
+        	-- We found it in the current guild. Here you go!
+        	return tonumber(mainRolesList[roleID2Check])
+      	end
     end
     -- Big oops, didn't find in current guild, or main guild. Search by name in all guilds!
     --[[
@@ -141,7 +141,6 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
       end
     end
     ]]--
-
     return nil -- Sorry, couldn't find anywhere
 end
 
@@ -423,7 +422,7 @@ function GetDiscordRoles(user, guild --[[optional]])
 			local roles = data.roles
 			local found = true
 			if Config.CacheDiscordRoles then
-        recent_role_cache[discordId] = recent_role_cache[discordId] or {}
+        		recent_role_cache[discordId] = recent_role_cache[discordId] or {}
 				recent_role_cache[discordId][guildId] = roles
 				Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId][guildId] = nil end)
 			end
