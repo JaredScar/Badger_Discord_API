@@ -6,6 +6,7 @@ Config = {
 	},
 	Bot_Token = '',
 	RoleList = {},
+	DebugScript = false,
 	CacheDiscordRoles = true, -- true to cache player roles, false to make a new Discord Request every time
 	CacheDiscordRolesTime = 60, -- if CacheDiscordRoles is true, how long to cache roles before clearing (in seconds)
 }

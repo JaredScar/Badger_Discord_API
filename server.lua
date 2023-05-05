@@ -145,10 +145,18 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
 end
 
 function CheckEqual(role1, role2, guild --[[optional]])
-    local roleID1 = FetchRoleID(role1, guild)
-    local roleID2 = FetchRoleID(role2, guild)
-    if (type(roleID1) ~= "nil" and type(roleID2) ~= "nil") and tonumber(roleID1) == tonumber(roleID2) then 
-	return true
+    local roleID1 = FetchRoleID(role1, guild);
+    local roleID2 = FetchRoleID(role2, guild);
+	if (Config.DebugScript) then 
+		print("[Badger_Discord_API] role1: " .. tostring(role1));
+		print("[Badger_Discord_API] role2: " .. tostring(role2));
+		print("[Badger_Discord_API] roleID1 type: " .. type(roleID1));
+		print("[Badger_Discord_API] roleID2 type: " .. type(roleID2));
+		print("[Badger_Discord_API] roleID1: " .. tostring(roleID1));
+		print("[Badger_Discord_API] roleID2: " .. tostring(roleID2));
+	end
+    if (type(roleID1) ~= "nil" and type(roleID2) ~= "nil") and roleID1 == roleID2 then 
+		return true
     end
 
     return false
