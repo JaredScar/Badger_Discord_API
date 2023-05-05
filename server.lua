@@ -106,6 +106,12 @@ function FetchRoleID(roleID2Check, guild --[[optional]])
     -- You gave me a non-string, non-number. I can't help you.
     if type(roleID2Check) ~= "string" then return nil end
 
+	if type(roleID2Check) == "string" then 
+		if (tonumber(roleID2Check) ~= nil) then 
+			return tonumber(roleID2Check);
+		end
+	end
+
     -- It's a string, therefore name -- search config rolelist
     local rolesListFromConfig = Config.RoleList
     if rolesListFromConfig[roleID2Check] then
