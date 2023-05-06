@@ -11,6 +11,7 @@ client_scripts {
 }
 
 server_scripts {
+	"versionChecker.lua",
 	'config.lua',
 	"server.lua", -- Uncomment this line
 	--"example.lua" -- Remove this when you actually start using the script!!!
