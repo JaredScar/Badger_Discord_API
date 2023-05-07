@@ -3,7 +3,7 @@ Citizen.CreateThread(function()
     resourceName = "Badger_Discord_API ("..GetCurrentResourceName()..")" -- the resource name
     
     function checkVersion(err,responseText, headers)
-        curVersion = LoadResourceFile(GetCurrentResourceName(), "version") -- make sure the "version" file actually exists in your resource root!
+        curVersion = LoadResourceFile(GetCurrentResourceName(), "version.txt") -- make sure the "version" file actually exists in your resource root!
     
         if curVersion ~= responseText and tonumber(curVersion) < tonumber(responseText) then
             print("\n###############################")
