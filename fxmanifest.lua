@@ -39,5 +39,6 @@ server_exports {
 	"AddRole",
 	"RemoveRole",
 	"ChangeDiscordVoice",
-	"ClearCache"
+	"ClearCache",
+	"FetchRoleID"
 } 
