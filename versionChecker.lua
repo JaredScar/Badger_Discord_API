@@ -7,7 +7,7 @@ Citizen.CreateThread(function()
     
         if curVersion ~= responseText and tonumber(curVersion) < tonumber(responseText) then
             print("\n###############################")
-            print("\n"..resourceName.." is outdated, should be:\n"..responseText.."is:\n"..curVersion.."\nplease update it from https://github.com"..updatePath.."")
+            print("\n"..resourceName.." is outdated, should be: "..responseText.."\nis: "..curVersion.."\nplease update it from https://github.com"..updatePath.."")
             print("\n###############################")
         elseif tonumber(curVersion) > tonumber(responseText) then
             print("You somehow skipped a few versions of "..resourceName.." or the git went offline, if it's still online I advise you to update...")
