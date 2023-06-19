@@ -242,6 +242,8 @@ function GetDiscordName(user)
                 -- It is valid data 
                 --print("The data for User " .. GetPlayerName(user) .. " is: ");
                 --print(data.avatar);
+		if data.discriminator == 0 or data.discriminator == "0" then return data.username end
+					
                 nameData = data.username .. "#" .. data.discriminator;
                 --print("---")
             end
