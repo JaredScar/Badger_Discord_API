@@ -2,6 +2,7 @@ local FormattedToken = "Bot " .. Config.Bot_Token
 
 local error_codes_defined = {
 	[200] = 'OK - The request was completed successfully..!',
+	[204] = 'OK - No Content',
 	[400] = "Error - The request was improperly formatted, or the server couldn't understand it..!",
 	[401] = 'Error - The Authorization header was missing or invalid..! Your Discord Token is probably wrong or does not have correct permissions attributed to it.',
 	[403] = 'Error - The Authorization token you passed did not have permission to the resource..! Your Discord Token is probably wrong or does not have correct permissions attributed to it.',
@@ -495,7 +496,7 @@ function SetNickname(user, nickname, reason)
 		local name = nickname or ""
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
 		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}), reason)
-		if member.code ~= 200 then
+		if member.code ~= 200 and member.code ~= 204 then
 			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
