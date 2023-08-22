@@ -399,7 +399,10 @@ function GetGuildRoleList(guild --[[optional]])
 			local roles = data.roles;
 			local roleList = {};
 			for i = 1, #roles do 
-				roleList[roles[i].name] = roles[i].id;
+				table.insert(roleList, {
+					name = roles[i].name,
+					id = roles[i].id
+				})
 			end
 			Caches.RoleList[guildId] = roleList;
 		else
@@ -516,7 +519,7 @@ function AddRole(user, roleId, reason)
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
 		table.insert(roles, roleId)
 		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roles}), reason)
-		if member.code ~= 200 then
+		if member.code ~= 200 and member.code ~= 204 then
 			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
@@ -542,7 +545,7 @@ function RemoveRole(user, roleId, reason)
 		end
 
 		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roles}), reason)
-		if member.code ~= 200 then
+		if member.code ~= 200 and member.code ~= 204 then
 			print("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
