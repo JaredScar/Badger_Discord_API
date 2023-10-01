@@ -404,6 +404,7 @@ end
 function GetDiscordRoles(user, guild --[[optional]])
   local discordId = nil
   local guildId = GetGuildId(guild)
+  local roles = nil
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then
 			discordId = string.gsub(id, "discord:", "")
@@ -412,25 +413,32 @@ function GetDiscordRoles(user, guild --[[optional]])
 	end
 
 	if discordId then
-		if Config.CacheDiscordRoles and recent_role_cache[discordId] and recent_role_cache[discordId][guildId] then
-			return recent_role_cache[discordId][guildId]
-		end
-		local endpoint = ("guilds/%s/members/%s"):format(guildId, discordId)
-		local member = DiscordRequest("GET", endpoint, {})
-		if member.code == 200 then
-			local data = json.decode(member.data)
-			local roles = data.roles
-			local found = true
-			if Config.CacheDiscordRoles then
-        		recent_role_cache[discordId] = recent_role_cache[discordId] or {}
-				recent_role_cache[discordId][guildId] = roles
-				Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[discordId][guildId] = nil end)
-			end
+		-- Get roles for specified guild (or main guild if not specified)
+		roles = GetUserRolesInGuild(discordId, guildId)
+		-- If specified guild or disabled multiguild option, just return this one
+		if guild or Config.Multiguild == false then
 			return roles
-		else
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] DETAILS: " .. error_codes_defined[member.code])
-			return false
 		end
+
+		-- MULTIGUILD SECTION
+		-- Keep main guild roles so we can add the rest on top of this list
+		roles = (type(roles) == "table") and roles or {}
+		-- Loop through guilds in config and get the roles from each one.
+		for _,id in pairs(Config.Guilds) do
+			-- If it's the main guild, we already fetched these roles. NEXT!
+			if id == guildId then goto skip end
+			-- Fetch roles for this guild
+			local guildRoles = GetUserRolesInGuild(discordId, id)
+			-- If it didnt return false due to error, add the roles to the list
+			if type(guildRoles) == "table" then
+				-- Insert each role into roles list
+				for _,v in pairs(guildRoles) do
+					table.insert(roles, v)
+				end
+			end
+			::skip::
+		end
+		return roles
 	else
 		sendDebugMessage("[Badger_Perms] ERROR: Discord was not connected to user's Fivem account...")
 		return false
