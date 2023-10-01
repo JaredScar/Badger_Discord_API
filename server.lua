@@ -438,6 +438,40 @@ function GetDiscordRoles(user, guild --[[optional]])
 	return false
 end
 
+function GetUserRolesInGuild (user, guild)
+	-- Error check before starting operation
+	if not user then
+		sendDebugMessage("[Badger_Discord_API] ERROR: GetUserRolesInGuild requires discord ID")
+		return false
+	end
+	if not guild then
+		sendDebugMessage("[Badger_Discord_API] ERROR: GetUserRolesInGuild requires guild ID")
+		return false
+	end
+
+	-- Check for cached roles
+	if Config.CacheDiscordRoles and recent_role_cache[user] and recent_role_cache[user][guild] then
+		return recent_role_cache[user][guild]
+	end
+
+	-- Request roles for user id
+	local endpoint = ("guilds/%s/members/%s"):format(guild, user)
+	local member = DiscordRequest("GET", endpoint, {})
+	if member.code == 200 then
+		local data = json.decode(member.data)
+		local roles = data.roles
+		if Config.CacheDiscordRoles then
+			recent_role_cache[user] = recent_role_cache[user] or {}
+			recent_role_cache[user][guild] = roles
+			Citizen.SetTimeout(((Config.CacheDiscordRolesTime or 60)*1000), function() recent_role_cache[user][guild] = nil end)
+		end
+		return roles
+	else
+		sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] DETAILS: " .. error_codes_defined[member.code])
+		return false
+	end
+end
+
 function GetDiscordNickname(user, guild --[[optional]])
 	local discordId = nil
   local guildId = GetGuildId(guild)
