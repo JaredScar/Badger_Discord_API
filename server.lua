@@ -428,12 +428,15 @@ function GetDiscordRoles(user, guild --[[optional]])
 		-- MULTIGUILD SECTION
 		-- Keep main guild roles so we can add the rest on top of this list
 		roles = (type(roles) == "table") and roles or {}
+		local checkedGuilds = {}
 		-- Loop through guilds in config and get the roles from each one.
 		for _,id in pairs(Config.Guilds) do
 			-- If it's the main guild, we already fetched these roles. NEXT!
 			if id == guildId then goto skip end
+			if checkedGuilds[id] then goto skip end
 			-- Fetch roles for this guild
 			local guildRoles = GetUserRolesInGuild(discordId, id)
+			checkedGuilds[id] = true
 			-- If it didnt return false due to error, add the roles to the list
 			if type(guildRoles) == "table" then
 				-- Insert each role into roles list
