@@ -398,7 +398,7 @@ function GetGuildRoleList(guild --[[optional]])
 	return Caches.RoleList[guildId];
 end
 
-local recent_role_cache = {}
+recent_role_cache = {}
 
 function ClearCache(discordId) 
 	if (discordId ~= nil) then 
