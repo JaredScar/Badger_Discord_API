@@ -75,7 +75,7 @@ function GetIdentifier(source, id_type)
 end
 
 function GetGuildId (guildName)
-  local result = Config.Guild_ID
+  local result = tostring(Config.Guild_ID)
   if guildName and Config.Guilds[guildName] then
     result = tostring(Config.Guilds[guildName])
   end
@@ -432,7 +432,7 @@ function GetDiscordRoles(user, guild --[[optional]])
 		-- Loop through guilds in config and get the roles from each one.
 		for _,id in pairs(Config.Guilds) do
 			-- If it's the main guild, we already fetched these roles. NEXT!
-			if id == guildId then goto skip end
+			if tostring(id) == guildId then goto skip end
 			if checkedGuilds[id] then goto skip end
 			-- Fetch roles for this guild
 			local guildRoles = GetUserRolesInGuild(discordId, id)
