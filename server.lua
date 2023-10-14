@@ -427,7 +427,14 @@ function GetDiscordRoles(user, guild --[[optional]])
 
 		-- MULTIGUILD SECTION
 		-- Keep main guild roles so we can add the rest on top of this list
-		roles = (type(roles) == "table") and roles or {}
+		
+		-- For some reason, referencing roles again will use the global reference that is returned...
+		-- because of that, we use this resetRoles list and repopulate. Probably a better way to do this. -- Needs to be looked into
+		resetRoles = {}
+		for _, role_id in pairs(roles) do 
+			table.insert(resetRoles, role_id);
+		end
+		roles = resetRoles
 		local checkedGuilds = {}
 		-- Loop through guilds in config and get the roles from each one.
 		for _,id in pairs(Config.Guilds) do
