@@ -439,6 +439,7 @@ function GetDiscordRoles(user, guild --[[optional]])
 		-- Loop through guilds in config and get the roles from each one.
 		for _,id in pairs(Config.Guilds) do
 			-- If it's the main guild, we already fetched these roles. NEXT!
+			-- We don't really need this check, but maybe someone used their main guild in this config list....
 			if tostring(id) == guildId then goto skip end
 			if checkedGuilds[id] then goto skip end
 			-- Fetch roles for this guild
@@ -496,7 +497,7 @@ function GetUserRolesInGuild (user, guild)
 end
 
 function GetDiscordNickname(user, guild --[[optional]])
-	local discordId = nil
+  local discordId = nil
   local guildId = GetGuildId(guild)
 	for _, id in ipairs(GetPlayerIdentifiers(user)) do
 		if string.match(id, "discord:") then
