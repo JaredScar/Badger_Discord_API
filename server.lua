@@ -189,7 +189,7 @@ function IsDiscordEmailVerified(user)
                 isVerified = data.verified;
             end
         else 
-        	sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code]);
+        	sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code]);
         end
     end
     return isVerified;
@@ -214,7 +214,7 @@ function GetDiscordEmail(user)
                 emailData = data.email;
             end
         else 
-        	sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
+        	sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
         end
     end
     return emailData;
@@ -242,7 +242,7 @@ function GetDiscordName(user)
 				nameData = data.username .. "#" .. data.discriminator;
 			end
 		else 
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
 		end
     end
     return nameData;
@@ -261,7 +261,7 @@ function GetGuildIcon(guild --[[optional]])
 			return 'https://cdn.discordapp.com/icons/' .. Config.Guild_ID .. "/" .. data.icon .. ".png";
 		end 
 	else
-		sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 	end
 	return nil;
 end
@@ -274,7 +274,7 @@ function GetGuildSplash(guild --[[optional]])
 		-- Image 
 		return 'https://cdn.discordapp.com/splashes/' .. Config.Guild_ID .. "/" .. data.icon .. ".png";
 	else
-		sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 	end
 	return nil;
 end 
@@ -287,7 +287,7 @@ function GetGuildName(guild --[[optional]])
 		-- Image 
 		return data.name;
 	else
-		sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 	end
 	return nil;
 end
@@ -300,7 +300,7 @@ function GetGuildDescription(guild --[[optional]])
 		-- Image 
 		return data.description;
 	else
-		sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 	end
 	return nil;
 end
@@ -313,7 +313,7 @@ function GetGuildMemberCount(guild --[[optional]])
 		-- Image 
 		return data.approximate_member_count;
 	else
-		sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 	end
 	return nil;
 end
@@ -325,7 +325,7 @@ function GetGuildOnlineMemberCount(guild --[[optional]])
 		local data = json.decode(guild.data)
 		return data.approximate_presence_count;
 	else
-		sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 	end
 	return nil;
 end
@@ -354,14 +354,14 @@ function GetDiscordAvatar(user)
 					end
 				end
 			else 
-				sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
+				sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. DETAILS: " .. error_codes_defined[member.code])
 			end
 			Caches.Avatars[discordId] = imgURL;
 		else 
 			imgURL = Caches.Avatars[discordId];
 		end 
 	else 
-		sendDebugMessage("[Badger_Perms] ERROR: Discord ID was not found...")
+		sendDebugMessage("[Badger_Discord_API] ERROR: Discord ID was not found...")
 	end
     return imgURL;
 end
@@ -391,7 +391,7 @@ function GetGuildRoleList(guild --[[optional]])
 			end
 			Caches.RoleList[guildId] = roleList;
 		else
-			sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+			sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
 			Caches.RoleList[guildId] = nil;
 		end
 	end
@@ -456,7 +456,7 @@ function GetDiscordRoles(user, guild --[[optional]])
 		end
 		return roles
 	else
-		sendDebugMessage("[Badger_Perms] ERROR: Discord was not connected to user's Fivem account...")
+		sendDebugMessage("[Badger_Discord_API] ERROR: Discord was not connected to user's Fivem account...")
 		return false
 	end
 	return false
@@ -491,7 +491,7 @@ function GetUserRolesInGuild (user, guild)
 		end
 		return roles
 	else
-		sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] DETAILS: " .. error_codes_defined[member.code])
+		sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached... Returning false. [Member Data NOT FOUND] DETAILS: " .. error_codes_defined[member.code])
 		return false
 	end
 end
@@ -514,11 +514,11 @@ function GetDiscordNickname(user, guild --[[optional]])
 			local nickname = data.nick
 			return nickname;
 		else
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 			return nil;
 		end
 	else
-		sendDebugMessage("[Badger_Perms] ERROR: Discord was not connected to user's Fivem account...")
+		sendDebugMessage("[Badger_Discord_API] ERROR: Discord was not connected to user's Fivem account...")
 		return nil;
 	end
 	return nil;
@@ -538,7 +538,7 @@ function SetNickname(user, nickname, reason)
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
 		local member = DiscordRequest("PATCH", endpoint, json.encode({nick = tostring(name)}), reason)
 		if member.code ~= 200 and member.code ~= 204 then
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
 end
@@ -558,7 +558,7 @@ function AddRole(user, roleId, reason)
 		table.insert(roles, roleId)
 		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roles}), reason)
 		if member.code ~= 200 then
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
 end
@@ -584,7 +584,7 @@ function RemoveRole(user, roleId, reason)
 
 		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roles}), reason)
 		if member.code ~= 200 then
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
 end
@@ -602,7 +602,7 @@ function SetRoles(user, roleList, reason)
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
 		local member = DiscordRequest("PATCH", endpoint, json.encode({roles = roleList}), reason)
 		if member.code ~= 200 then
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
 end
@@ -619,7 +619,7 @@ function ChangeDiscordVoice(user, voice, reason)
 		local endpoint = ("guilds/%s/members/%s"):format(Config.Guild_ID, discordId)
 		local member = DiscordRequest("PATCH", endpoint, json.encode({channel_id = voice}), reason)
 		if member.code ~= 200 then
-			sendDebugMessage("[Badger_Perms] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
+			sendDebugMessage("[Badger_Discord_API] ERROR: Code 200 was not reached. Error Code: " .. error_codes_defined[member.code])
 		end
 	end
 end
@@ -628,18 +628,18 @@ Citizen.CreateThread(function()
   local mguild = DiscordRequest("GET", "guilds/"..Config.Guild_ID, {})
   if mguild.code == 200 then
     local data = json.decode(mguild.data)
-    sendDebugMessage("[Badger_Perms] Successful connection to Guild : "..data.name.." ("..data.id..")")
+    sendDebugMessage("[Badger_Discord_API] Successful connection to Guild : "..data.name.." ("..data.id..")")
   else
-    sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(mguild.data and json.decode(mguild.data) or mguild.code)) 
+    sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(mguild.data and json.decode(mguild.data) or mguild.code)) 
   end
   if (Config.Multiguild) then 
     for _,guildID in pairs(Config.Guilds) do
       local guild = DiscordRequest("GET", "guilds/"..guildID, {})
       if guild.code == 200 then
         local data = json.decode(guild.data)
-        sendDebugMessage("[Badger_Perms] Successful connection to Guild : "..data.name.." ("..data.id..")")
+        sendDebugMessage("[Badger_Discord_API] Successful connection to Guild : "..data.name.." ("..data.id..")")
       else
-        sendDebugMessage("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data and json.decode(guild.data) or guild.code)) 
+        sendDebugMessage("[Badger_Discord_API] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data and json.decode(guild.data) or guild.code)) 
       end
     end
   end
