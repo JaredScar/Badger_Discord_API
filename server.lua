@@ -84,7 +84,7 @@ end
 
 function DiscordRequest(method, endpoint, jsondata, reason)
     local data = nil
-    PerformHttpRequest("https://discordapp.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
+    PerformHttpRequest("https://discord.com/api/"..endpoint, function(errorCode, resultData, resultHeaders)
 		data = {data=resultData, code=errorCode, headers=resultHeaders}
     end, method, #jsondata > 0 and jsondata or "", {["Content-Type"] = "application/json", ["Authorization"] = FormattedToken, ['X-Audit-Log-Reason'] = reason})
 
