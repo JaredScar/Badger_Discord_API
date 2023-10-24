@@ -1,4 +1,6 @@
 local FormattedToken = "Bot " .. Config.Bot_Token
+local roleGuilds = {}
+local roleNames = {}
 
 local error_codes_defined = {
 	[200] = 'OK - The request was completed successfully..!',
@@ -399,6 +401,76 @@ function GetGuildRoleList(guild --[[optional]])
 end
 
 recent_role_cache = {}
+function FindGuildForRole(roleId)
+	local roleFound
+	local tempGuildList = Config.Guilds
+	tempGuildList["main_guild_abcd1010"] = Config.Guild_ID
+
+  if not roleId then
+    sendDebugMessage("[Badger_Discord_API] ERROR: Invalid usage of FindGuildForRole. Requires `roleId` arg.")
+  end
+  roleId = tostring(roleId)
+	if roleGuilds[roleId] then
+		return roleGuilds[roleId]
+	end
+
+	for _,id in pairs(tempGuildList) do
+		local guild = DiscordRequest("GET", "guilds/"..id, {})
+		if guild.code == 200 then
+			local data = json.decode(guild.data)
+			local roles = data.roles;
+			for i = 1, #roles do
+				if tostring(roles[i].id) == roleId then
+					roleGuilds[roleId] = id
+					roleFound = id
+					break
+				end
+			end
+
+			if roleFound then
+				break
+			end
+		else
+			sendDebugMessage("[Badger_Discord_API] ERROR: please check your config and ensure everything is correct. Error: "..tostring(guild.code))
+		end
+	end
+
+	return roleFound
+end
+
+function RoleNameFromId(id, guild)
+	local guildRoles = false
+	local roleName
+
+  if not id then
+    sendDebugMessage("[Badger_Discord_API] ERROR: Invalid usage of RoleNameFromId. Requires `id` arg.")
+    return roleName
+  end
+  id = tostring(id)
+	if roleNames[id] then
+		return roleNames[id]
+	end
+  if not guild then guild = FindGuildForRole(id) end
+  if not guild then
+    sendDebugMessage("[Badger_Discord_API] ERROR: RoleNameFromId could not find guild for role ["..id.."]")
+  end
+  guild = tostring(guild)
+	guildRoles = GetGuildRoleList(guild)
+
+	if guildRoles then
+		for k, v in pairs(guildRoles) do
+			if tostring(v) == id then
+				roleNames[id] = k
+				roleName = k
+				break
+			end
+		end
+	end
+  if not roleName then
+    sendDebugMessage("[Badger_Discord_API] ERROR: Could not find name for role ["..id.."] in guild ["..guild.."]")
+  end
+	return roleName
+end
 
 function ClearCache(discordId) 
 	if (discordId ~= nil) then 
