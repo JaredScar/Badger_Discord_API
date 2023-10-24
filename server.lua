@@ -402,12 +402,16 @@ end
 
 recent_role_cache = {}
 function FindGuildForRole(roleId)
-	local roleFound = false
+	local roleFound
 	local tempGuildList = Config.Guilds
-	tempGuildList["main"] = Config.Guild_ID
+	tempGuildList["main_guild_abcd1010"] = Config.Guild_ID
 
-	if roleGuilds[tostring(roleId)] then
-		return roleGuilds[tostring(roleId)]
+  if not roleId then
+    sendDebugMessage("[Badger_Discord_API] ERROR: Invalid usage of FindGuildForRole. Requires `roleId` arg.")
+  end
+  roleId = tostring(roleId)
+	if roleGuilds[roleId] then
+		return roleGuilds[roleId]
 	end
 
 	for _,id in pairs(tempGuildList) do
@@ -416,8 +420,8 @@ function FindGuildForRole(roleId)
 			local data = json.decode(guild.data)
 			local roles = data.roles;
 			for i = 1, #roles do
-				if tostring(roles[i].id) == tostring(roleId) then
-					roleGuilds[tostring(roleId)] = id
+				if tostring(roles[i].id) == roleId then
+					roleGuilds[roleId] = id
 					roleFound = id
 					break
 				end
@@ -427,7 +431,7 @@ function FindGuildForRole(roleId)
 				break
 			end
 		else
-			print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+			sendDebugMessage("[Badger_Discord_API] ERROR: please check your config and ensure everything is correct. Error: "..tostring(guild.code))
 		end
 	end
 
