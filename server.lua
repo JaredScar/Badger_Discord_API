@@ -1,4 +1,6 @@
 local FormattedToken = "Bot " .. Config.Bot_Token
+local roleGuilds = {}
+local roleNames = {}
 
 local error_codes_defined = {
 	[200] = 'OK - The request was completed successfully..!',
@@ -399,6 +401,61 @@ function GetGuildRoleList(guild --[[optional]])
 end
 
 recent_role_cache = {}
+function FindGuildForRole(roleId)
+	local roleFound = false
+	local tempGuildList = Config.Guilds
+	tempGuildList["main"] = Config.Guild_ID
+
+	if roleGuilds[tostring(roleId)] then
+		return roleGuilds[tostring(roleId)]
+	end
+
+	for _,id in pairs(tempGuildList) do
+		local guild = DiscordRequest("GET", "guilds/"..id, {})
+		if guild.code == 200 then
+			local data = json.decode(guild.data)
+			local roles = data.roles;
+			for i = 1, #roles do
+				if tostring(roles[i].id) == tostring(roleId) then
+					roleGuilds[tostring(roleId)] = id
+					roleFound = id
+					break
+				end
+			end
+
+			if roleFound then
+				break
+			end
+		else
+			print("[Badger_Perms] An error occured, please check your config and ensure everything is correct. Error: "..(guild.data or guild.code)) 
+		end
+	end
+
+	return roleFound
+end
+
+function RoleNameFromId(id, guild)
+	local guildRoles = false
+	local roleName = 'N/A'
+
+	if roleNames[tostring(id)] then
+		return roleNames[tostring(id)]
+	end
+
+	guildRoles = GetGuildRoleList(guild)
+
+	if guildRoles then
+		for k, v in pairs(guildRoles) do
+			if tostring(v) == tostring(id) then
+				roleNames[tostring(id)] = k
+				roleName = k
+				break
+			end
+		end
+	end
+
+	return roleName
+end
 
 function ClearCache(discordId) 
 	if (discordId ~= nil) then 

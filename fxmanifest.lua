@@ -40,5 +40,7 @@ server_exports {
 	"RemoveRole",
 	"ChangeDiscordVoice",
 	"ClearCache",
-	"FetchRoleID"
+	"FetchRoleID",
+	"FindGuildForRole",
+	"RoleNameFromId"
 } 
