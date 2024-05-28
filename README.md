@@ -12,14 +12,6 @@
 [![Developer Discord](https://discordapp.com/api/guilds/597445834153525298/widget.png?style=banner4)](https://discord.com/invite/WjB5VFz)
 
 ## Sponsors
-### fiveguard.net
-For better **paid anticheat** check out **https://store.fiveguard.ac/**.
-
-We are **able to provide** this **free product** because of help of **https://fiveguard.net/**.
-
-**fiveguard is best fivem anticheat**
-<hr />
-
 ### <a href='https://github.com/sponsors/JaredScar?frequency=one-time&sponsor=JaredScar' target='_blank'>Want your message here?</a>
 | Sponsor | Sponsor Message |
 | --- | --- |
